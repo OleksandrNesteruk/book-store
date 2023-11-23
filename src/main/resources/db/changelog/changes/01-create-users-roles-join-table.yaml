@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users-roles-join-table
+      author: Olexandr Nesteruk
+      changes:
+        - createTable:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+              - column:
+                  name: role_id
+                  type: bigint
+            constraints:
+              - foreignKeyConstraint:
+                  baseColumnNames: user_id
+                  baseTableName: users_roles
+                  constraintName: fk_user_id
+                  referencedColumnNames: id
+                  referencedTableName: users
+              - foreignKeyConstraint:
+                  baseColumnNames: role_id
+                  baseTableName: users_roles
+                  constraintName: fk_role_id
+                  referencedColumnNames: id
+                  referencedTableName: roles
