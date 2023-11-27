@@ -17,13 +17,13 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "role", nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
-    private RoleName role;
+    private RoleName roleName;
 
     @Override
     public String getAuthority() {
-        return role.name();
+        return roleName.name();
     }
 
     public enum RoleName {

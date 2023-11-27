@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setShippingAddress(request.getShippingAddress());
-        user.getRoles().add(roleService.findByRole(Role.RoleName.ROLE_USER));
+        user.getRoles().add(roleService.findByRoleName(Role.RoleName.ROLE_USER));
         User savedUser = userRepository.save(user);
         return userMapper.mapToDto(savedUser);
     }
