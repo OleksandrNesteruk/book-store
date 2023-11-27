@@ -7,4 +7,5 @@ import com.bookstore.exception.RegistrationException;
 public interface UserService {
     UserResponseDto register(UserRegistrationRequestDto request)
             throws RegistrationException;
+
 }

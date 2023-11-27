@@ -4,10 +4,13 @@ import com.bookstore.dto.user.UserRegistrationRequestDto;
 import com.bookstore.dto.user.UserResponseDto;
 import com.bookstore.exception.RegistrationException;
 import com.bookstore.mappers.UserMapper;
+import com.bookstore.model.Role;
 import com.bookstore.model.User;
 import com.bookstore.repository.user.UserRepository;
+import com.bookstore.service.RoleService;
 import com.bookstore.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto request)
@@ -24,10 +29,11 @@ public class UserServiceImpl implements UserService {
         }
         User user = new User();
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setShippingAddress(request.getShippingAddress());
+        user.getRoles().add(roleService.findByRoleName(Role.RoleName.ROLE_USER));
         User savedUser = userRepository.save(user);
         return userMapper.mapToDto(savedUser);
     }
